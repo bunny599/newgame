@@ -1,51 +1,52 @@
 const Engine = Matter.Engine;
-const World= Matter.World;
+const World = Matter.World;
 const Bodies = Matter.Bodies;
+const Body = Matter.Body;
 
 var engine, world;
-var ground,ball;
-var binImg,bin;
+
+function setup() {
+	createCanvas(800, 700);
 
 
-function preload(){
-    binImg = loadImage("Images/dustbingreen.png");
-}
-function setup(){
-    var canvas = createCanvas(1200,600);
-    engine = Engine.create();
-    world = engine.world;
+	engine = Engine.create();
+	world = engine.world;
 
-    ground = new Ground();
-    crumpledPaper = new Paper();
+	//Create the Bodies Here.
+	paper = new Paper(100, 600, 10);
 
-    bin = createSprite(964,520,20,20);
-    bin.addImage(binImg);
-    bin.scale = 0.45;
+  ground = new Ground(400, 680, 800, 20);
+  
+  leftSide = new Dustbin(550, 620, 20, 100);
+  bottom = new Dustbin(610, 660, 100, 20);
+  rightSide = new Dustbin(670, 620, 20, 100);
 
-    binPart1 = new Dustbin(902,505,10,120);
-    binPart2 = new Dustbin(962,565,130,10);
-    binPart3 = new Dustbin(1024,505,10,120);
+	Engine.run(engine);
+  
 }
 
-function draw(){
-    background(0);
-    Engine.update(engine);
 
-    //text(mouseX+","+mouseY,200,200);
+function draw() {
+  rectMode(CENTER);
 
-    
-    ground.display();
-    crumpledPaper.display();
-    binPart1.display();
-    binPart2.display();
-    binPart3.display(); 
-      
-    drawSprites();
+  background(0);
+  
+  Engine.update(engine);
+
+  paper.display();
+
+  ground.display();
+
+  leftSide.display();
+  bottom.display();
+  rightSide.display();
+
+  drawSprites();
+ 
 }
 
 function keyPressed(){
-    if(keyCode === UP_ARROW){
-        Matter.Body.applyForce(crumpledPaper.body,crumpledPaper.body.position,{x:74,y:-75});
-    }
+  if(keyCode === UP_ARROW) {
+    Matter.Body.applyForce(paper.body, paper.body.position, {x:15, y: -15})
+  }
 }
-  
